@@ -1,4 +1,8 @@
+import { createReducer, createSlice } from "@reduxjs/toolkit";
+// import { addTask, deleteTask, setStatusFilter, toggleCompleted } from "./actions";
 import { statusFilters } from "./constatnts";
+import { nanoid } from "nanoid"
+
 export const initialState = {
     tasks: [
         { id: 0, text: "Learn HTML and CSS", completed: true },
@@ -12,31 +16,116 @@ export const initialState = {
     },
 };
 
+const tasksSlice = createSlice({
+    name: 'tasks',
+    initialState,
+    reducers: {
+        addTask: {
+            reducer(state, action) {
+                state.tasks.push(action.payload)
+            },
 
-export const rootReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'tasks/addTask':
-            return {
-                ...state,
-                tasks: [...state.tasks, action.payload]
+            prepare(text) {
+                return {
+                    payload: {
+                        text,
+                        completed: false,
+                        id: nanoid(),
+                    }
+                }
+            }
+        },
+        setStatusFilter(state, action) {
+            state.filters.status = action.payload
+
+        },
+        deleteTask(state, action) {
+            state.tasks = state.tasks.filter(task => task.id !== action.payload)
+
+        },
+        toggleCompleted(state, action) {
+            for (const task of state.tasks) {
+                if (task.id === action.payload) {
+                    task.completed = !task.completed
+                    break;
+                }
             }
 
-        case 'filters/setStatusFilter':
-            return {
-                ...state,
-                filters: { ...state.filters, status: action.payload }
-            }
+        }
 
-        case 'tasks/deleteTask':
-            return {
-                ...state,
-                tasks: state.tasks.filter(task => task.id !== action.payload)
-            }
-
-        default:
-            return state;
     }
-}
+})
+
+export const rootReducer = tasksSlice.reducer;
+export const { addTask, setStatusFilter, deleteTask, toggleCompleted } = tasksSlice.actions;
+
+
+
+// export const rootReducer = createReducer(initialState, builder => {
+//     builder.addCase(addTask.type, (state, action) => {
+//         state.tasks.push(action.payload)
+
+//     })
+//         .addCase(setStatusFilter.type, (state, action) => {
+//             state.filters.status = action.payload
+
+//         })
+//         .addCase(deleteTask.type, (state, action) => {
+//             state.tasks = state.tasks.filter(task => task.id !== action.payload)
+
+//         })
+//         .addCase(toggleCompleted.type, (state, action) => {
+//             for (const task of state.tasks) {
+//                 if (task.id === action.payload) {
+//                     task.completed = !task.completed
+//                     break;
+//                 }
+//             }
+
+//         })
+// })
+
+
+
+// export const rootReducer = (state = initialState, action) => {
+//     switch (action.type) {
+//         case addTask.type:
+//             return {
+//                 ...state,
+//                 tasks: [...state.tasks, action.payload]
+//             }
+
+//         case setStatusFilter.type:
+//             return {
+//                 ...state,
+//                 filters: { ...state.filters, status: action.payload }
+//             }
+
+//         case deleteTask.type:
+//             return {
+//                 ...state,
+//                 tasks: state.tasks.filter(task => task.id !== action.payload)
+//             }
+
+//         case toggleCompleted.type:
+//             return {
+//                 ...state,
+//                 tasks: state.tasks.map(task => {
+//                     if (task.id !== action.payload) {
+//                         return task;
+//                     }
+//                     return {
+//                         ...task,
+//                         completed: !task.completed
+//                     }
+//                 })
+//             }
+
+
+//         default:
+//             return state;
+//     }
+// }
 
 
 

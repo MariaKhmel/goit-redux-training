@@ -2,7 +2,12 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { statusFilters } from "./redux/constatnts";
-import { addTask, deleteTask, setStatusFilter } from "./redux/actions";
+import {
+  addTask,
+  deleteTask,
+  setStatusFilter,
+  toggleCompleted,
+} from "./redux/actions";
 
 // import { useDispatch, useSelector } from "react-redux";
 // import Counter from "./Counter";
@@ -12,6 +17,7 @@ const App = () => {
   // const numOfClicks = useSelector(getClicksValue);
 
   const filter = useSelector((state) => state.filters.status);
+
   const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
 
@@ -25,6 +31,8 @@ const App = () => {
   const handleDelete = (taskId) => dispatch(deleteTask(taskId));
 
   const handleChange = (value) => dispatch(setStatusFilter(value));
+
+  const handleToggle = (taskId) => dispatch(toggleCompleted(taskId));
 
   const count = tasks.reduce(
     (acc, task) => {
@@ -77,7 +85,11 @@ const App = () => {
         {tasks.map((task) => (
           <li key={task.id}>
             <div>
-              <input type="checkbox" checked={task.completed} />
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => handleToggle(task.id)}
+              />
               <p>{task.text}</p>
               <button onClick={() => handleDelete(task.id)}>close</button>
             </div>
