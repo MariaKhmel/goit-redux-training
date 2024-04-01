@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { decrement, increment } from "./redux/actions";
+import { increment, decrement } from "./redux/counterslice";
+// import { decrement, increment } from "./redux/actions";
 
 const Counter = () => {
-  const total = useSelector((state) => state.counter.total);
-  const step = useSelector((state) => state.counter.step);
+  const total = useSelector((state) => state.counterReducer.total);
+  const step = useSelector((state) => state.counterReducer.step);
 
   const dispatch = useDispatch();
 

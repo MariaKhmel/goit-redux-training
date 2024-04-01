@@ -1,12 +1,62 @@
-import { configureStore } from "@reduxjs/toolkit";
-import reducer from './reducer'
+import { devToolsEnhancer } from "@redux-devtools/extension";
+import { createStore } from "redux";
+import { rootReducer } from "./reducer";
 
 
-const store = configureStore({
-    reducer
-})
 
-export default store;
+const enhancer = devToolsEnhancer()
+export const store = createStore(rootReducer, enhancer)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import { combineReducers, configureStore } from "@reduxjs/toolkit";
+// import { toDoReducer } from './reducer'
+// import { counterReducer } from "./counterslice";
+// import persistStore from "redux-persist/es/persistStore";
+// import persistReducer from "redux-persist/es/persistReducer";
+// import storage from "redux-persist/lib/storage";
+
+// const persistConfig = {
+//     key: 'root',
+//     storage
+// }
+
+// const reducer = combineReducers({
+//     counterReducer,
+//     toDoReducer,
+// })
+
+
+// const persistedReducer = persistReducer(persistConfig, reducer)
+
+
+
+// const store = configureStore({
+//     reducer: persistedReducer
+// })
+// export const persistor = persistStore(store)
+// export default store;
 
 // import { createStore } from "redux";
 // import reducer from "./reducer";

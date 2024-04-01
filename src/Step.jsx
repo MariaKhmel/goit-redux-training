@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setStep } from "./redux/actions";
+import { setStep } from "./redux/counterslice";
 
 const Step = () => {
-  const step = useSelector((state) => state.counter.step);
+  const step = useSelector((state) => state.step);
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
